@@ -1,13 +1,27 @@
 require "test_helper"
 
-class Authentication::ValidateTokenTest < ActiveSupport::TestCase
-  test "#call returns true" do
-    subject = Authentication::ValidateToken.new
-    token = "ANYTHING"
-    options = {}
+module Authentication
+  class ValidateTokenTest < ActiveSupport::TestCase
+    test "should return true if token is correct" do
+      token = Token.generate_unique_secure_token
+      Token.create!(value: token)
+      passed_token = token
+      subject = ValidateToken.new
 
-    result = subject.call(token, options)
+      token_is_correct = subject.call(passed_token)
 
-    assert_equal true, result
+      assert token_is_correct
+    end
+
+    test "should return false if token is not correct" do
+      token = Token.generate_unique_secure_token
+      Token.create!(value: token)
+      passed_token = Token.generate_unique_secure_token
+      subject = ValidateToken.new
+
+      token_is_correct = subject.call(passed_token)
+
+      refute token_is_correct
+    end
   end
 end

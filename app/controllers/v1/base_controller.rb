@@ -15,8 +15,8 @@ class V1::BaseController < ApplicationController
     failure_message = 'Not authorized'
     validate_token = Authentication::ValidateToken.new
 
-    authenticate_or_request_with_http_token(REALM, failure_message) do |token, options|
-      Authentication::ValidateToken.new.call(token, options)
+    authenticate_or_request_with_http_token(REALM, failure_message) do |token, _options|
+      Authentication::ValidateToken.new.call(token)
     end
   end
 end

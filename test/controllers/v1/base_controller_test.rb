@@ -8,8 +8,9 @@ class V1::BaseControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'Not authorized', response.body
   end
 
-  test "should succeed when a token provided" do
-    token = "ANYTHING"
+  test "should succeed when a correct token provided" do
+    token = Authentication::Token.generate_unique_secure_token
+    Authentication::Token.create!(value: token)
     headers = {
       'Authorization': "Token token=\"#{token}\"",
     }
