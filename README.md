@@ -4,6 +4,7 @@ A generic template for Rails-based API
 
 1. Replace "rails-api-template" with your app name:n the following files `.ruby-version`, `config/cable.yml` and `config/environments/production.rb`
 2. Encrypt your own credentials by removing `config/credentials.yml.enc` and `config/master.key` and recreating them with `EDITOR=vim rails credentials:edit`
+3. Setup the db: `rails db:setup; rails db:migrate`
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
