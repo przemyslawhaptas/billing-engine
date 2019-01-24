@@ -6,6 +6,7 @@ A generic template for Rails-based API
 2. Encrypt your own credentials by removing `config/credentials.yml.enc` and `config/master.key` and recreating them with `EDITOR=vim rails credentials:edit`
 3. Setup the db: `rails db:setup; rails db:migrate`
 4. Setup CORS settings in `config/application.rb`
+5. Setup anti-DDOS settings in 'config/initializers/rack_attack.rb`
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
