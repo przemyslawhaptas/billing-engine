@@ -5,7 +5,7 @@ class V1::BaseControllerTest < ActionDispatch::IntegrationTest
     get v1_root_path, as: :json
 
     assert_response :unauthorized
-    assert_equal 'Not authorized', response.body
+    assert_equal "Not authorized", response.body
   end
 
   test "should succeed when a correct token provided" do

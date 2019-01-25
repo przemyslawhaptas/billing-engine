@@ -1,4 +1,4 @@
-require_relative 'boot'
+require_relative "boot"
 
 require "rails"
 # Pick the frameworks you want:
@@ -34,8 +34,8 @@ module RailsApiTemplate
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins '*'
-        resource '*', headers: :any, methods: [:get, :post, :options]
+        origins "*"
+        resource "*", headers: :any, methods: %i[get post options]
       end
     end
 

@@ -1,0 +1,72 @@
+AllCops:
+  Exclude:
+    - "bin/*"
+    - "db/**/*"
+    - "tmp/**/*"
+    - "vendor/**/*"
+    - "log/**/*"
+    - "config.ru"
+    - "vendor/bundle"
+
+  TargetRubyVersion: 2.5
+
+ClassAndModuleChildren:
+  Enabled: false
+
+Documentation:
+  Enabled: false
+
+Layout/IndentArray:
+  EnforcedStyle: consistent
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyleForEmptyBraces: no_space
+  EnforcedStyle: space
+
+Metrics/BlockLength:
+  Exclude:
+    - test/**/*
+    - config/routes.rb
+    - config/environments/*
+
+Metrics/ClassLength:
+  Exclude:
+    - test/**/*
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Exclude:
+    - test/**/*
+
+Metrics/ParameterLists:
+  Exclude:
+    - test/**/*
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/MutableConstant:
+  Enabled: false
+
+Style/NumericLiteralPrefix:
+  EnforcedOctalStyle: zero_only
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%w': '()'
+    '%W': '()'
+
+Style/RegexpLiteral:
+  EnforcedStyle: percent_r
+  AllowInnerSlashes: true
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma

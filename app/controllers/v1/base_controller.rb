@@ -3,7 +3,7 @@ class V1::BaseController < ApplicationController
 
   before_action :authenticate
 
-  REALM = 'Application'
+  REALM = "Application"
 
   def index
     head :ok
@@ -12,8 +12,7 @@ class V1::BaseController < ApplicationController
   private
 
   def authenticate
-    failure_message = 'Not authorized'
-    validate_token = Authentication::ValidateToken.new
+    failure_message = "Not authorized"
 
     authenticate_or_request_with_http_token(REALM, failure_message) do |token, _options|
       Authentication::ValidateToken.new.call(token)
