@@ -1,9 +1,14 @@
 module V1
   class SubscriptionsController < BaseController
     def create
-      SubscriptionDeserializer.new.parse!(subscription_json)
+      status_codes = {
+        ok: 200,
+        invalid_data: 400,
+      }
 
-      render status: 500
+      result, response = CreateSubscription.new.call(subscription_json)
+
+      render json: response, status: status_codes[result]
     end
 
     private
