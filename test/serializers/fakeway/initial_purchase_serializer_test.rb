@@ -2,9 +2,9 @@ require "test_helper"
 
 module Fakeway
   class InitialPurchaseSerializerTest < ActiveSupport::TestCase
-    test "serializes an amount an billing info" do
+    test "serializes an amount and credit card info" do
       amount = 1234
-      billing_info = Billing.new(
+      credit_card = CreditCard.new(
         card_number: "4242424242424242",
         expiration_month: "01",
         expiration_year: "2024",
@@ -12,7 +12,7 @@ module Fakeway
         zip_code: "20620"
       )
 
-      json = InitialPurchaseSerializer.new.call(amount, billing_info)
+      json = InitialPurchaseSerializer.new.call(amount, credit_card)
 
       expected_json = {
         "amount" => "1234",

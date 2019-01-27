@@ -1,13 +1,13 @@
 module Fakeway
   class InitialPurchaseSerializer
-    def call(amount, billing_info)
+    def call(amount, credit_card)
       {
         "amount" => amount.to_s,
-        "card_number" => billing_info.card_number,
-        "cvv" => billing_info.cvv,
-        "expiration_month" => billing_info.expiration_month,
-        "expiration_year" => billing_info.expiration_year,
-        "zip_code" => billing_info.zip_code,
+        "card_number" => credit_card.card_number,
+        "cvv" => credit_card.cvv,
+        "expiration_month" => credit_card.expiration_month,
+        "expiration_year" => credit_card.expiration_year,
+        "zip_code" => credit_card.zip_code,
       }.to_json
     end
   end

@@ -29,14 +29,14 @@ class CreateSubscriptionForNewUserTest < ActiveSupport::TestCase
       purchase_service: purchase_service
     )
     subscription = Subscription.new
-    billing = Billing.new
+    credit_card = CreditCard.new
     shipping = Shipping.new
 
     deserializer
       .expects(:parse).with(subscription_json)
-      .returns([:ok, { subscription: subscription, billing: billing, shipping: shipping }])
+      .returns([:ok, { subscription: subscription, credit_card: credit_card, shipping: shipping }])
     product_repository.expects(:find_price).returns(price)
-    purchase_service.expects(:call).with(price, billing).returns([:error, { errors: ["An error occurred"] }])
+    purchase_service.expects(:call).with(price, credit_card).returns([:error, { errors: ["An error occurred"] }])
 
     result, errors = subject.call(subscription_json)
 

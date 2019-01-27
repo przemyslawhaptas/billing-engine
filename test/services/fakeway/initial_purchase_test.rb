@@ -12,15 +12,15 @@ module Fakeway
         response_deserializer: response_deserializer
       )
       amount = 100
-      billing_info = {}
+      credit_card = {}
       request_body = ""
       response_body = ""
 
-      request_serializer.expects(:call).with(amount, billing_info).returns(request_body)
+      request_serializer.expects(:call).with(amount, credit_card).returns(request_body)
       api_client.expects(:purchase).with(request_body).returns(response_body)
       response_deserializer.expects(:parse).with(response_body)
 
-      subject.call(amount, billing_info)
+      subject.call(amount, credit_card)
     end
   end
 end

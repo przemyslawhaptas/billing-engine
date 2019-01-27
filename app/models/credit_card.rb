@@ -1,4 +1,4 @@
-class Billing
+class CreditCard
   include ActiveModel::Model
 
   attr_accessor :card_number,

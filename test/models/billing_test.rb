@@ -1,8 +1,8 @@
 require "test_helper"
 
-class BillingTest < ActiveSupport::TestCase
+class CreditCardTest < ActiveSupport::TestCase
   test "is valid" do
-    billing_data = Billing.new(
+    credit_card_data = CreditCard.new(
       card_number: "4242424242424242",
       cvv: "123",
       expiration_month: "01",
@@ -10,6 +10,6 @@ class BillingTest < ActiveSupport::TestCase
       zip_code: "20620"
     )
 
-    assert billing_data.valid?
+    assert credit_card_data.valid?
   end
 end

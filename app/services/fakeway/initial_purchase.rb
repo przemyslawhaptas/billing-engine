@@ -10,8 +10,8 @@ module Fakeway
       @api_client = api_client
     end
 
-    def call(amount, billing_info)
-      request_body = request_serializer.call(amount, billing_info)
+    def call(amount, credit_card)
+      request_body = request_serializer.call(amount, credit_card)
       response_body = api_client.purchase(request_body)
 
       response_deserializer.parse(response_body)

@@ -6,7 +6,7 @@ class SubscriptionDeserializerTest < ActiveSupport::TestCase
       "address" => "P.O. Box 283 8562 Fusce Rd.",
       "zip_code" => "20620",
     }
-    billing_attributes = {
+    credit_card_attributes = {
       "card_number" => "4242424242424242",
       "expiration_month" => "01",
       "expiration_year" => "2024",
@@ -19,7 +19,7 @@ class SubscriptionDeserializerTest < ActiveSupport::TestCase
         "type" => "subscription",
         "attributes" => {
           "shipping" => shipping_attributes,
-          "billing" => billing_attributes,
+          "credit_card" => credit_card_attributes,
           "product_id" => "gold",
           "user_id" => 1,
         },
