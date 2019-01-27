@@ -1,13 +1,13 @@
 require "test_helper"
 
-class CreateSubscriptionForNewUserTest < ActiveSupport::TestCase
+class NewCustomerSubscribesTest < ActiveSupport::TestCase
   test "successfully purchases the product based on passed subscription params"
 
   test "returns erros on invalid request data" do
     subscription_json = {}
     deserializer = mock
     deserializer.expects(:parse).with(subscription_json).returns([:error, { errors: ["An error occurred"] }])
-    subject = CreateSubscriptionForNewUser.new(
+    subject = NewCustomerSubscribes.new(
       deserializer: deserializer
     )
 
@@ -23,7 +23,7 @@ class CreateSubscriptionForNewUserTest < ActiveSupport::TestCase
     deserializer = mock
     product_repository = mock
     purchase_service = mock
-    subject = CreateSubscriptionForNewUser.new(
+    subject = NewCustomerSubscribes.new(
       deserializer: deserializer,
       product_repository: product_repository,
       purchase_service: purchase_service

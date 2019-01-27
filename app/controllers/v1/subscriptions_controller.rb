@@ -7,8 +7,8 @@ module V1
         purchase_failed: 400,
       }
 
-      is_a_new_user = SubscriptionUserDeserializer.new.parse(subscription_json).nil?
-      use_case = is_a_new_user ? CreateSubscriptionForNewUser.new : CreateSubscriptionForExistingUser.new
+      is_new_customer = CustomerDeserializer.new.parse(subscription_json).nil?
+      use_case = is_new_customer ? NewCustomerSubscribes.new : ExistingCustomerSubscribes.new
       result, response = use_case.call(subscription_json)
 
       render json: response, status: status_codes[result]

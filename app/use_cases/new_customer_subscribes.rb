@@ -1,4 +1,4 @@
-class CreateSubscriptionForNewUser
+class NewCustomerSubscribes
   def initialize(
     deserializer: SubscriptionDeserializer.new,
     product_repository: ProductRepository.new,
@@ -22,7 +22,7 @@ class CreateSubscriptionForNewUser
 
     # purchase_token = purchase_data[:token]
 
-    # create a new user, save the token, save the shipping and billing info
+    # create a new customer, save the token, save the shipping and billing info
     # return success
 
     [:ok, nil]

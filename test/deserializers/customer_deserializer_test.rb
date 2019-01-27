@@ -1,6 +1,6 @@
 class SubscriptionDeserializerTest < ActiveSupport::TestCase
-  test "plucks user_id from subscription json" do
-    deserializer = SubscriptionUserDeserializer.new
+  test "plucks customer_id from subscription json" do
+    deserializer = CustomerDeserializer.new
     shipping_attributes = {
       "name" => "Iris Watson",
       "address" => "P.O. Box 283 8562 Fusce Rd.",
@@ -21,13 +21,13 @@ class SubscriptionDeserializerTest < ActiveSupport::TestCase
           "shipping" => shipping_attributes,
           "credit_card" => credit_card_attributes,
           "product_id" => "gold",
-          "user_id" => 1,
+          "customer_id" => 1,
         },
       },
     }
 
-    user_id = deserializer.parse(subscription_json)
+    customer_id = deserializer.parse(subscription_json)
 
-    assert_equal 1, user_id
+    assert_equal 1, customer_id
   end
 end

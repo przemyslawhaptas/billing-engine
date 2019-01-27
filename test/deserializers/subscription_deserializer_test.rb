@@ -21,7 +21,7 @@ class SubscriptionDeserializerTest < ActiveSupport::TestCase
           "shipping" => shipping_attributes,
           "credit_card" => credit_card_attributes,
           "product_id" => "gold",
-          "user_id" => nil,
+          "customer_id" => nil,
         },
       },
     }
@@ -32,7 +32,7 @@ class SubscriptionDeserializerTest < ActiveSupport::TestCase
     assert_equal "Iris Watson", data.fetch(:shipping).name
     assert_equal "20620", data.fetch(:credit_card).zip_code
     assert_equal "gold", data.fetch(:subscription).product_id
-    assert_nil data.fetch(:subscription).user_id
+    assert_nil data.fetch(:subscription).customer_id
   end
 
   test "returns errors when the json contains invalid data" do
@@ -55,7 +55,7 @@ class SubscriptionDeserializerTest < ActiveSupport::TestCase
         "attributes" => {
           "shipping" => shipping_attributes,
           "credit_card" => credit_card_attributes,
-          "user_id" => nil,
+          "customer_id" => nil,
         },
       },
     }
