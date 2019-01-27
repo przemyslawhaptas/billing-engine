@@ -9,7 +9,7 @@ module V1
       stub_authentication
     end
 
-    test "creates a new subscription" do
+    test "creates a subscription for a new user" do
       shipping_attributes = {
         "name" => "Iris Watson",
         "address" => "P.O. Box 283 8562 Fusce Rd.",
@@ -17,8 +17,8 @@ module V1
       }
       billing_attributes = {
         "card_number" => "4242424242424242",
-        "expiration_day" => "01",
-        "expiration_month" => "2024",
+        "expiration_month" => "01",
+        "expiration_year" => "2024",
         "cvv" => "123",
         "zip_code" => "20620",
       }
@@ -35,10 +35,30 @@ module V1
         },
       }
       params = { data: subscription_json }
+      CreateSubscriptionForNewUser.any_instance.stubs(:call).returns([:ok, nil])
 
       post v1_subscriptions_path, params: params, as: :json
 
       assert_response :success
+    end
+
+    test "doesn't create a subscription for an existing user" do
+      subscription_json = {
+        "data" => {
+          "id" => nil,
+          "type" => "subscription",
+          "attributes" => {
+            "product_id" => "1",
+            "user_id" => "123",
+          },
+        },
+      }
+      params = { data: subscription_json }
+
+      post v1_subscriptions_path, params: params, as: :json
+
+      assert_response :bad_request
+      assert_equal ["Purchases for existing users are not implemented"].to_json, response.body
     end
   end
 end

@@ -9,7 +9,7 @@ class SubscriptionDeserializer
     billing = Billing.new(subscription_data[:billing])
     models = [subscription, shipping, billing]
 
-    return [:error, collect_errors(models)] unless models.map(&:valid?).all?
+    return [:error, { errors: collect_errors(models) }] unless models.map(&:valid?).all?
 
     [:ok, { shipping: shipping, billing: billing, subscription: subscription }]
   end

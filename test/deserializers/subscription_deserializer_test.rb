@@ -8,8 +8,8 @@ class SubscriptionDeserializerTest < ActiveSupport::TestCase
     }
     billing_attributes = {
       "card_number" => "4242424242424242",
-      "expiration_day" => "01",
-      "expiration_month" => "2024",
+      "expiration_month" => "01",
+      "expiration_year" => "2024",
       "cvv" => "123",
       "zip_code" => "20620",
     }
@@ -20,7 +20,7 @@ class SubscriptionDeserializerTest < ActiveSupport::TestCase
         "attributes" => {
           "shipping" => shipping_attributes,
           "billing" => billing_attributes,
-          "product_id" => "1",
+          "product_id" => "gold",
           "user_id" => nil,
         },
       },
@@ -29,9 +29,10 @@ class SubscriptionDeserializerTest < ActiveSupport::TestCase
     result, data = deserializer.parse(subscription_json)
 
     assert_equal :ok, result
-    assert_equal Shipping.name, data.fetch(:shipping).class.name
-    assert_equal Billing.name, data.fetch(:billing).class.name
-    assert_equal Subscription.name, data.fetch(:subscription).class.name
+    assert_equal "Iris Watson", data.fetch(:shipping).name
+    assert_equal "20620", data.fetch(:billing).zip_code
+    assert_equal "gold", data.fetch(:subscription).product_id
+    assert_nil data.fetch(:subscription).user_id
   end
 
   test "returns errors when the json contains invalid data" do
@@ -43,8 +44,8 @@ class SubscriptionDeserializerTest < ActiveSupport::TestCase
     }
     billing_attributes = {
       "card_number" => "4242424242424242",
-      "expiration_day" => "01",
-      "expiration_month" => "2024",
+      "expiration_month" => "01",
+      "expiration_year" => "2024",
       "cvv" => "123",
     }
     subscription_json = {
@@ -62,6 +63,6 @@ class SubscriptionDeserializerTest < ActiveSupport::TestCase
     result, data = deserializer.parse(subscription_json)
 
     assert_equal :error, result
-    assert_equal ["Product can't be blank", "Zip code can't be blank"], data
+    assert_equal({ errors: ["Product can't be blank", "Zip code can't be blank"] }, data)
   end
 end
