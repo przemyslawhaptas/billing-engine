@@ -1,5 +1,5 @@
-class Subscription < ApplicationRecord
-  belongs_to :customer
+class SubscriptionDataValidator
+  include ActiveModel::Model
 
   attr_accessor :product_id
 

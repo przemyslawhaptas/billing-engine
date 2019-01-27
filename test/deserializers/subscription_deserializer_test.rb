@@ -63,6 +63,6 @@ class SubscriptionDeserializerTest < ActiveSupport::TestCase
     result, data = deserializer.parse(subscription_json)
 
     assert_equal :error, result
-    assert_equal({ errors: ["Product can't be blank", "Zip code can't be blank"] }, data)
+    assert_equal({ errors: ["Product is not included in the list", "Zip code can't be blank"] }, data)
   end
 end

@@ -2,24 +2,37 @@ class SubscriptionDeserializer
   include ActiveModelSerializers::Deserialization
 
   def parse(json)
-    subscription_data = jsonapi_parse(json)
+    parsed_data = jsonapi_parse(json)
+    subscription_data = parsed_data.except(:shipping, :credit_card, :customer_id)
+    shipping_data = parsed_data[:shipping]
+    credit_card_data = parsed_data[:credit_card]
 
-    subscription = Subscription.new(subscription_data.except(:shipping, :credit_card))
-    shipping = Shipping.new(subscription_data[:shipping])
-    credit_card = CreditCard.new(subscription_data[:credit_card])
-    models = [subscription, shipping, credit_card]
+    is_valid, errors = validate(subscription_data, shipping_data, credit_card_data)
+    return [:error, { errors: errors }] unless is_valid
 
-    return [:error, { errors: collect_errors(models) }] unless models.map(&:valid?).all?
-
-    [:ok, { shipping: shipping, credit_card: credit_card, subscription: subscription }]
+    [:ok, build_models(subscription_data, shipping_data, credit_card_data)]
   end
 
   private
 
-  def collect_errors(models)
-    models
-      .map(&:errors)
-      .map(&:full_messages)
-      .flatten
+  def validate(subscription_data, shipping_data, credit_card_data)
+    validators = [
+      SubscriptionDataValidator.new(subscription_data),
+      ShippingDataValidator.new(shipping_data),
+      CreditCardDataValidator.new(credit_card_data),
+    ]
+
+    is_valid = validators.map(&:valid?).all?
+    errors = validators.map(&:errors).map(&:full_messages).flatten
+
+    [is_valid, errors]
+  end
+
+  def build_models(subscription_data, shipping_data, credit_card_data)
+    {
+      subscription: Subscription.new(subscription_data),
+      shipping: Shipping.new(shipping_data),
+      credit_card: CreditCard.new(credit_card_data),
+    }
   end
 end

@@ -2,7 +2,8 @@ require "test_helper"
 
 class SubscriptionTest < ActiveSupport::TestCase
   test "is valid" do
-    subscription_data = Subscription.new(product_id: 1)
+    customer = Customer.create!
+    subscription_data = Subscription.new(product_id: "gold", customer: customer)
 
     assert subscription_data.valid?
   end
