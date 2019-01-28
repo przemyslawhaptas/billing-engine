@@ -7,9 +7,12 @@ module Authentication
     end
 
     def call
-      token = Token.new(value: Token.generate_unique_secure_token)
+      value = Token.generate_unique_secure_token
+      token = Token.new(value: value)
 
       token_repository.save!(token)
+
+      value
     end
 
     private
