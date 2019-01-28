@@ -48,12 +48,12 @@ class NewCustomerSubscribesTest < ActiveSupport::TestCase
     deserializer = mock
     product_repository = mock
     purchase_service = mock
-    persist_results = mock
+    customer_repository = mock
     subject = NewCustomerSubscribes.new(
       deserializer: deserializer,
       product_repository: product_repository,
       purchase_service: purchase_service,
-      persist_results: persist_results
+      customer_repository: customer_repository
     )
     subscription = Subscription.new
     credit_card = CreditCard.new
@@ -65,7 +65,9 @@ class NewCustomerSubscribesTest < ActiveSupport::TestCase
       .returns([:ok, { subscription: subscription, credit_card: credit_card, shipping: shipping }])
     product_repository.expects(:find_price).returns(price)
     purchase_service.expects(:call).with(price, credit_card).returns([:ok, { billing: billing }])
-    persist_results.expects(:call).with(subscription: subscription, billing: billing, shipping: shipping)
+    customer_repository.expects(:persist_new_customer_subscription).with(
+      subscription: subscription, billing: billing, shipping: shipping
+    )
 
     result, _data = subject.call(subscription_json)
 

@@ -3,12 +3,12 @@ class NewCustomerSubscribes
     deserializer: SubscriptionDeserializer.new,
     product_repository: ProductRepository.new,
     purchase_service: Fakeway::InitialPurchase.new,
-    persist_results: PersistNewCustomerSubscription.new
+    customer_repository: CustomerRepository.new
   )
     @deserializer = deserializer
     @product_repository = product_repository
     @purchase_service = purchase_service
-    @persist_results = persist_results
+    @customer_repository = customer_repository
   end
 
   def call(subscription_json)
@@ -23,12 +23,14 @@ class NewCustomerSubscribes
     billing = purchase_data[:billing]
     return [:purchase_failed, purchase_data[:errors]] if purchase_result == :error
 
-    persist_results.call(subscription: subscription, billing: billing, shipping: shipping)
+    customer_repository.persist_new_customer_subscription(
+      subscription: subscription, billing: billing, shipping: shipping
+    )
 
     [:ok, []]
   end
 
   private
 
-  attr_reader :deserializer, :product_repository, :purchase_service, :persist_results
+  attr_reader :deserializer, :product_repository, :purchase_service, :customer_repository
 end
