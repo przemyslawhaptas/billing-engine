@@ -21,11 +21,13 @@ class SubscriptionDeserializer
       ShippingDataValidator.new(shipping_data),
       CreditCardDataValidator.new(credit_card_data),
     ]
-
     is_valid = validators.map(&:valid?).all?
     errors = validators.map(&:errors).map(&:full_messages).flatten
 
     [is_valid, errors]
+  rescue ActiveModel::UnknownAttributeError => e
+    error = "Unknown attribute #{e.attribute}"
+    return [false, [error]]
   end
 
   def build_models(subscription_data, shipping_data, credit_card_data)
