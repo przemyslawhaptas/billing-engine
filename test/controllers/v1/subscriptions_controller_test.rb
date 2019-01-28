@@ -29,7 +29,7 @@ module V1
           "attributes" => {
             "shipping" => shipping_attributes,
             "credit_card" => credit_card_attributes,
-            "product_id" => "1",
+            "product_id" => "gold",
             "customer_id" => nil,
           },
         },

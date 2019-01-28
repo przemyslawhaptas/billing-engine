@@ -2,33 +2,33 @@ class NewCustomerSubscribes
   def initialize(
     deserializer: SubscriptionDeserializer.new,
     product_repository: ProductRepository.new,
-    purchase_service: Fakeway::InitialPurchase.new
+    purchase_service: Fakeway::InitialPurchase.new,
+    persist_results: PersistNewCustomerSubscription.new
   )
     @deserializer = deserializer
     @product_repository = product_repository
     @purchase_service = purchase_service
+    @persist_results = persist_results
   end
 
   def call(subscription_json)
     parsing_result, parsed_data = deserializer.parse(subscription_json)
-    return [:invalid_data, parsed_data[:errors]] if parsing_result == :error
-
     subscription = parsed_data[:subscription]
     credit_card = parsed_data[:credit_card]
+    shipping = parsed_data[:shipping]
+    return [:invalid_data, parsed_data[:errors]] if parsing_result == :error
 
     amount = product_repository.find_price(subscription.product_id)
     purchase_result, purchase_data = purchase_service.call(amount, credit_card)
+    billing = purchase_data[:billing]
     return [:purchase_failed, purchase_data[:errors]] if purchase_result == :error
 
-    # purchase_token = purchase_data[:token]
+    persist_results.call(subscription: subscription, billing: billing, shipping: shipping)
 
-    # create a new customer, save the token, save the shipping and billing info
-    # return success
-
-    [:ok, nil]
+    [:ok, []]
   end
 
   private
 
-  attr_reader :deserializer, :product_repository, :purchase_service
+  attr_reader :deserializer, :product_repository, :purchase_service, :persist_results
 end

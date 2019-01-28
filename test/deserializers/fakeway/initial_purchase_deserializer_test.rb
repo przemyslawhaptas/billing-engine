@@ -7,8 +7,10 @@ module Fakeway
       response_body = "{\"token\":\"dde1d8a37e29b9a35cb1deecef4cf7\",\"success\":true,\"error_code\":null}"
 
       result, data = deserializer.parse(response_body)
+      billing = data[:billing]
 
-      assert_equal [:ok, { token: "dde1d8a37e29b9a35cb1deecef4cf7" }], [result, data]
+      assert_equal :ok, result
+      assert_equal "dde1d8a37e29b9a35cb1deecef4cf7", billing.purchase_token
     end
 
     test "parses unsuccessful Fakeway API POST /purchase response body" do
